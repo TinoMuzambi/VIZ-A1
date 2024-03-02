@@ -1,0 +1,49 @@
+---
+title: "Viz Assignment"
+author: "Tino Muzambi"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+
+```{r}
+library(tidyverse)
+library(jsonlite)
+```
+
+
+# Check Datasets
+
+```{r}
+repos <- read.csv("./data/repositories.csv")
+str(repos)
+
+crashes <- read.csv("./data/Airplane_Crashes_and_Fatalities_Since_1908.csv")
+str(crashes)
+
+spotify <- read.csv("./data/final.csv")
+str(spotify)
+summary(spotify)
+
+spotify_sa <- spotify %>% 
+  filter(country == "South Africa")
+spotify_sample <- spotify %>% 
+  sample_n(50)
+write.csv(spotify_sample, "sample.csv", row.names=FALSE)
+write.csv(spotify_sa, "./data/spotify-sa.csv", row.names=FALSE)
+
+spotify_json <- toJSON()
+write(spotify_json, "./data/spotify.json")
+
+msl <- read.csv("./data/msl_csv2/all_matches.csv")
+str(msl)
+
+sa20 <- read.csv("./data/sat_csv2/all_matches.csv")
+str(sa20)
+```
+
