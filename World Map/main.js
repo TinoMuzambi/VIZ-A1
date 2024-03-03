@@ -41,7 +41,8 @@ d3.json("./data/map.json").then(function (mapData) {
 		.select("#map-container")
 		.append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.attr("id", "map-svg");
 
 	svg
 		.selectAll("path")
@@ -134,10 +135,8 @@ d3.json("./data/map.json").then(function (mapData) {
 	// Append image
 	svg
 		.append("image")
-		.attr(
-			"xlink:href",
-			"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png"
-		)
+		.attr("xlink:href", "./images/Spotify_logo_without_text.svg.webp")
+		.attr("id", "spotify-logo")
 		.attr("width", 80)
 		.attr("height", 80)
 		.attr("x", width - 90)
@@ -181,4 +180,45 @@ function onMouseOut() {
 
 	// Reset country highlight
 	d3.select(this).style("opacity", 1);
+}
+
+document.getElementById("map-container").addEventListener("click", exportMap);
+
+function exportMap() {
+	// Get the d3 map svg element
+	var mapSvg = d3.select("#map-svg").node();
+
+	// Create a clone so we don't modify the original
+	var mapClone = mapSvg.cloneNode(true);
+
+	// Create a div element
+	var div = document.createElement("div");
+
+	// Append svg clone to the div
+	div.appendChild(mapClone);
+
+	// Hide the existing map
+	d3.select("#map-svg").style("visibility", "hidden");
+
+	// Make div temporarily visible
+	div.style.position = "absolute";
+	div.style.top = 0;
+	div.style.left = 0;
+	document.body.appendChild(div);
+
+	// Export div to image
+	html2canvas(div).then(function (canvas) {
+		// Generate PNG data URL
+		var imgData = canvas.toDataURL("image/png");
+
+		// Download image
+		var a = document.createElement("a");
+		a.download = "map.png";
+		a.href = imgData;
+		a.click();
+
+		// Cleanup
+		document.body.removeChild(div);
+		d3.select("#map-svg").style("visibility", "");
+	});
 }
