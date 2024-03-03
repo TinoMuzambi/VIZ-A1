@@ -23,7 +23,7 @@ d3.json("./data/map.json").then(function (mapData) {
 	const colorScale = d3
 		.scaleSequential()
 		.domain([0, maxStreams])
-		.interpolator(d3.interpolateBlues);
+		.interpolator(d3.interpolateGreens);
 
 	// Create the map projection
 	const projection = d3.geoMercator().fitSize([width, height], mapData);
@@ -48,7 +48,9 @@ d3.json("./data/map.json").then(function (mapData) {
 			const countryName = d.properties.name;
 			const totalStreams = streamsByCountry[countryName] || 0;
 			return colorScale(totalStreams);
-		});
+		})
+		.style("stroke", "#00441b")
+		.style("stroke-width", 1);
 
 	// Add event listeners
 	svg.selectAll("path").on("mouseover", onMouseOver).on("mouseout", onMouseOut);
