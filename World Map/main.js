@@ -9,12 +9,13 @@ const maxStreams = Math.max(...streamsArray);
 // Define number formatter
 const formatter = new Intl.NumberFormat("en-ZA");
 
-let width = window.innerWidth;
-let height = window.innerHeight;
+let width = window.innerWidth - 20;
+let height = window.innerHeight - 25;
 
+// Handle resizing window.
 document.addEventListener("resize", () => {
-	width = window.innerWidth;
-	height = window.innerHeight;
+	width = window.innerWidth - 20;
+	height = window.innerHeight - 25;
 });
 
 // Load the world map data
