@@ -47,7 +47,11 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("fill", function (d) {
 			const countryName = d.properties.name;
 			const totalStreams = streamsByCountry[countryName] || 0;
-			return colorScale(totalStreams);
+			if (totalStreams === 0) {
+				return "#c7c7c7";
+			} else {
+				return colorScale(totalStreams);
+			}
 		})
 		.style("stroke", "#00441b")
 		.style("stroke-width", 1);
