@@ -66,7 +66,11 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("transform", "translate(20, 20)");
 
 	// Create legend title
-	legend.append("text").text("Total Streams").style("font-weight", "bold");
+	legend
+		.append("text")
+		.text("Total Streams")
+		.style("font-weight", "bold")
+		.attr("y", -5);
 
 	// Create gradient for legend
 	const legendGradient = legend
@@ -83,7 +87,7 @@ d3.json("./data/map.json").then(function (mapData) {
 		legendGradient
 			.append("stop")
 			.attr("offset", (value / maxStreams) * 100 + "%")
-			.attr("stop-color", colorScale(value));
+			.attr("stop-color", value === 0 ? "#c7c7c7" : colorScale(value));
 	});
 
 	// Draw the gradient legend rectangle
@@ -97,10 +101,10 @@ d3.json("./data/map.json").then(function (mapData) {
 	legend
 		.append("text")
 		.text(formatter.format(maxStreams))
-		.attr("x", 110)
+		.attr("x", 120)
 		.attr("y", 15);
 
-	legend.append("text").text(formatter.format(0)).attr("x", 0).attr("y", 15);
+	legend.append("text").text(0).attr("x", -10).attr("y", 15);
 });
 
 // Append tooltip div
