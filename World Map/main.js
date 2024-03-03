@@ -21,10 +21,14 @@ document.addEventListener("resize", () => {
 // Load the world map data
 d3.json("./data/map.json").then(function (mapData) {
 	// Create color scale
+	// const colorScale = d3
+	// 	.scaleSequential()
+	// 	.domain([0, maxStreams])
+	// 	.interpolator(d3.interpolateGreens);
 	const colorScale = d3
-		.scaleSequential()
-		.domain([0, maxStreams])
-		.interpolator(d3.interpolateGreens);
+		.scaleThreshold()
+		.domain([0, maxStreams / 4, maxStreams / 2, maxStreams * 0.75, maxStreams])
+		.range(["white", "#87fa8e", "#64bd6b", "#427f48", "#1e4025"]);
 
 	// Create the map projection
 	const projection = d3.geoMercator().fitSize([width, height], mapData);
@@ -84,12 +88,32 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("y2", "100%");
 
 	// Set gradient stops based on color scale
-	colorScale.ticks().forEach((value) => {
-		legendGradient
-			.append("stop")
-			.attr("offset", (value / maxStreams) * 100 + "%")
-			.attr("stop-color", colorScale(value));
-	});
+	legendGradient
+		.append("stop")
+		.attr("offset", "0%")
+		.attr("stop-color", "white");
+	legendGradient
+		.append("stop")
+		.attr("offset", "25%")
+		.attr("stop-color", "#87fa8e");
+	legendGradient
+		.append("stop")
+		.attr("offset", "50%")
+		.attr("stop-color", "#64bd6b");
+	legendGradient
+		.append("stop")
+		.attr("offset", "75%")
+		.attr("stop-color", "#427f48");
+	legendGradient
+		.append("stop")
+		.attr("offset", "100%")
+		.attr("stop-color", "#1e4025");
+	// colorScale.ticks().forEach((value) => {
+	// 	legendGradient
+	// 		.append("stop")
+	// 		.attr("offset", (value / maxStreams) * 100 + "%")
+	// 		.attr("stop-color", colorScale(value));
+	// });
 
 	// Draw the gradient legend rectangle
 	legend
