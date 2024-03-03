@@ -24,8 +24,13 @@ body,
 
 .tooltip {
 	position: absolute;
-	background: white;
 	border-radius: 0.5rem;
 	padding: 0.5rem 1rem;
 	box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1);
+	background: white;
+}
+
+svg,
+body {
+	background: lightBlue;
 }

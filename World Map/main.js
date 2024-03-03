@@ -49,7 +49,7 @@ d3.json("./data/map.json").then(function (mapData) {
 			const countryName = d.properties.name;
 			const totalStreams = streamsByCountry[countryName] || 0;
 			if (totalStreams === 0) {
-				return "#c7c7c7";
+				return "white";
 			} else {
 				return colorScale(totalStreams);
 			}
@@ -64,7 +64,7 @@ d3.json("./data/map.json").then(function (mapData) {
 	const legend = svg
 		.append("g")
 		.attr("id", "legend")
-		.attr("transform", "translate(20, 20)");
+		.attr("transform", "translate(20, 300)");
 
 	// Create legend title
 	legend
@@ -80,30 +80,30 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("id", "legend-gradient")
 		.attr("x1", "0%")
 		.attr("y1", "0%")
-		.attr("x2", "100%")
-		.attr("y2", "0%");
+		.attr("x2", "0%")
+		.attr("y2", "100%");
 
 	// Set gradient stops based on color scale
 	colorScale.ticks().forEach((value) => {
 		legendGradient
 			.append("stop")
 			.attr("offset", (value / maxStreams) * 100 + "%")
-			.attr("stop-color", value === 0 ? "#c7c7c7" : colorScale(value));
+			.attr("stop-color", colorScale(value));
 	});
 
 	// Draw the gradient legend rectangle
 	legend
 		.append("rect")
-		.attr("width", 120)
-		.attr("height", 20)
+		.attr("width", 20)
+		.attr("height", 120)
 		.style("fill", "url(#legend-gradient)");
 
 	// Add min and max labels
 	legend
 		.append("text")
 		.text(formatter.format(maxStreams))
-		.attr("x", 120)
-		.attr("y", 15);
+		.attr("x", 20)
+		.attr("y", 120);
 
 	legend.append("text").text(0).attr("x", -10).attr("y", 15);
 
@@ -127,6 +127,7 @@ const tooltip = d3
 	.attr("class", "tooltip")
 	.style("opacity", 0);
 
+// const stickyTooltips = ["United States of America", "South Africa", "Spain"];
 // Mouseover event handler
 function onMouseOver(d, i) {
 	// Get data for this country
