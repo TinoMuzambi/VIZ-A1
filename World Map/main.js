@@ -6,19 +6,25 @@ const streamsArray = Object.values(streamsByCountry);
 // Find maximum value
 const maxStreams = Math.max(...streamsArray);
 
-console.log({ maxStreams });
-
 // Create color scale
 const colorScale = d3
 	.scaleSequential()
 	.domain([0, maxStreams])
 	.interpolator(d3.interpolateBlues);
 
+// Define number formatter
+const formatter = new Intl.NumberFormat("en-ZA");
+
+let width = window.innerWidth;
+let height = window.innerHeight;
+
+document.addEventListener("resize", () => {
+	width = window.innerWidth;
+	height = window.innerHeight;
+});
+
 // Load the world map data
 d3.json("./data/map.json").then(function (mapData) {
-	const width = 1629;
-	const height = 1100;
-
 	// Create the map projection
 	const projection = d3.geoMercator().fitSize([width, height], mapData);
 
@@ -57,7 +63,6 @@ const tooltip = d3
 
 // Mouseover event handler
 function onMouseOver(d, i) {
-	console.log({ d });
 	// Get data for this country
 	const country = d.target.__data__.properties.name;
 	const streams = streamsByCountry[country];
@@ -67,7 +72,7 @@ function onMouseOver(d, i) {
 		.html(
 			`
     <div>${country}</div>
-    <div>Streams: ${streams}</div>
+    <div>Streams: ${streams ? formatter.format(streams) : 0}</div>
   `
 		)
 		.style("left", d.pageX + 10 + "px")
