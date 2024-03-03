@@ -106,6 +106,18 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("y", 15);
 
 	legend.append("text").text(0).attr("x", -10).attr("y", 15);
+
+	// Append image
+	svg
+		.append("image")
+		.attr(
+			"xlink:href",
+			"https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png"
+		)
+		.attr("width", 80)
+		.attr("height", 80)
+		.attr("x", width - 90)
+		.attr("y", 10);
 });
 
 // Append tooltip div
