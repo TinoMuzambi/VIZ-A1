@@ -6,12 +6,6 @@ const streamsArray = Object.values(streamsByCountry);
 // Find maximum value
 const maxStreams = Math.max(...streamsArray);
 
-// Create color scale
-const colorScale = d3
-	.scaleSequential()
-	.domain([0, maxStreams])
-	.interpolator(d3.interpolateBlues);
-
 // Define number formatter
 const formatter = new Intl.NumberFormat("en-ZA");
 
@@ -25,6 +19,12 @@ document.addEventListener("resize", () => {
 
 // Load the world map data
 d3.json("./data/map.json").then(function (mapData) {
+	// Create color scale
+	const colorScale = d3
+		.scaleSequential()
+		.domain([0, maxStreams])
+		.interpolator(d3.interpolateBlues);
+
 	// Create the map projection
 	const projection = d3.geoMercator().fitSize([width, height], mapData);
 
@@ -52,6 +52,49 @@ d3.json("./data/map.json").then(function (mapData) {
 
 	// Add event listeners
 	svg.selectAll("path").on("mouseover", onMouseOver).on("mouseout", onMouseOut);
+
+	// Create SVG legend container
+	const legend = svg
+		.append("g")
+		.attr("id", "legend")
+		.attr("transform", "translate(20, 20)");
+
+	// Create legend title
+	legend.append("text").text("Total Streams").style("font-weight", "bold");
+
+	// Create gradient for legend
+	const legendGradient = legend
+		.append("defs")
+		.append("linearGradient")
+		.attr("id", "legend-gradient")
+		.attr("x1", "0%")
+		.attr("y1", "0%")
+		.attr("x2", "100%")
+		.attr("y2", "0%");
+
+	// Set gradient stops based on color scale
+	colorScale.ticks().forEach((value) => {
+		legendGradient
+			.append("stop")
+			.attr("offset", (value / maxStreams) * 100 + "%")
+			.attr("stop-color", colorScale(value));
+	});
+
+	// Draw the gradient legend rectangle
+	legend
+		.append("rect")
+		.attr("width", 120)
+		.attr("height", 20)
+		.style("fill", "url(#legend-gradient)");
+
+	// Add min and max labels
+	legend
+		.append("text")
+		.text(formatter.format(maxStreams))
+		.attr("x", 110)
+		.attr("y", 15);
+
+	legend.append("text").text(formatter.format(0)).attr("x", 0).attr("y", 15);
 });
 
 // Append tooltip div
