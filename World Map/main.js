@@ -20,15 +20,9 @@ document.addEventListener("resize", () => {
 
 // Load the world map data
 d3.json("./data/map.json").then(function (mapData) {
-	// Create color scale
-	// const colorScale = d3
-	// 	.scaleSequential()
-	// 	.domain([0, maxStreams])
-	// 	.interpolator(d3.interpolateGreens);
 	const colorScale = d3
-		.scaleThreshold()
-		.domain([0, maxStreams / 4, maxStreams / 2, maxStreams * 0.75, maxStreams])
-		.range(["white", "#87fa8e", "#64bd6b", "#427f48", "#1e4025"]);
+		.scaleQuantize([0, maxStreams], d3.schemeGreens[4])
+		.nice();
 
 	// Create the map projection
 	const projection = d3.geoMercator().fitSize([width, height], mapData);
@@ -53,84 +47,14 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("fill", function (d) {
 			const countryName = d.properties.name;
 			const totalStreams = streamsByCountry[countryName] || 0;
-			if (totalStreams === 0) {
-				return "white";
-			} else {
-				return colorScale(totalStreams);
-			}
+			if (totalStreams === 0) return "white";
+			return colorScale(totalStreams);
 		})
 		.style("stroke", "#00441b")
 		.style("stroke-width", 1);
 
 	// Add event listeners
 	svg.selectAll("path").on("mouseover", onMouseOver).on("mouseout", onMouseOut);
-
-	// Create SVG legend container
-	const legend = svg
-		.append("g")
-		.attr("id", "legend")
-		.attr("transform", "translate(20, 300)");
-
-	// Create legend title
-	legend
-		.append("text")
-		.text("Total Streams")
-		.style("font-weight", "bold")
-		.attr("y", -5);
-
-	// Create gradient for legend
-	const legendGradient = legend
-		.append("defs")
-		.append("linearGradient")
-		.attr("id", "legend-gradient")
-		.attr("x1", "0%")
-		.attr("y1", "0%")
-		.attr("x2", "0%")
-		.attr("y2", "100%");
-
-	// Set gradient stops based on color scale
-	legendGradient
-		.append("stop")
-		.attr("offset", "0%")
-		.attr("stop-color", "white");
-	legendGradient
-		.append("stop")
-		.attr("offset", "25%")
-		.attr("stop-color", "#87fa8e");
-	legendGradient
-		.append("stop")
-		.attr("offset", "50%")
-		.attr("stop-color", "#64bd6b");
-	legendGradient
-		.append("stop")
-		.attr("offset", "75%")
-		.attr("stop-color", "#427f48");
-	legendGradient
-		.append("stop")
-		.attr("offset", "100%")
-		.attr("stop-color", "#1e4025");
-	// colorScale.ticks().forEach((value) => {
-	// 	legendGradient
-	// 		.append("stop")
-	// 		.attr("offset", (value / maxStreams) * 100 + "%")
-	// 		.attr("stop-color", colorScale(value));
-	// });
-
-	// Draw the gradient legend rectangle
-	legend
-		.append("rect")
-		.attr("width", 20)
-		.attr("height", 120)
-		.style("fill", "url(#legend-gradient)");
-
-	// Add min and max labels
-	legend
-		.append("text")
-		.text(formatter.format(maxStreams))
-		.attr("x", 20)
-		.attr("y", 120);
-
-	legend.append("text").text(0).attr("x", -10).attr("y", 15);
 
 	// Append image
 	svg
@@ -141,6 +65,50 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("height", 80)
 		.attr("x", width - 90)
 		.attr("y", 10);
+
+	const legendX = 20;
+	const legendY = 50;
+
+	const legend = svg
+		.append("g")
+		.attr("id", "legend")
+		.attr("transform", `translate(${legendX}, ${legendY})`);
+
+	const legendScale = d3
+		.scaleQuantize()
+		.domain([0, maxStreams])
+		.range(d3.schemeGreens[4])
+		.nice();
+
+	const legendEntries = legendScale.range().map((color) => {
+		const start = legendScale.invertExtent(color)[0];
+		const end = legendScale.invertExtent(color)[1];
+		return `${start ? formatter.format(start) : "0"} - ${formatter.format(
+			end
+		)}`;
+	});
+
+	legend
+		.selectAll("rect")
+		.data(d3.schemeGreens[4])
+		.enter()
+		.append("rect")
+		.attr("x", 0)
+		.attr("y", (d, i) => i * 20)
+		.attr("width", 20)
+		.attr("height", 20)
+		.style("fill", (d) => d);
+
+	legend
+		.selectAll("text")
+		.data(legendEntries)
+		.enter()
+		.append("text")
+		.attr("x", 30)
+		.attr("y", (d, i) => i * 20 + 15)
+		.text((d) => d);
+
+	legend.append("text").attr("x", 0).attr("y", -10).text("Streams");
 });
 
 // Append tooltip div
@@ -150,7 +118,6 @@ const tooltip = d3
 	.attr("class", "tooltip")
 	.style("opacity", 0);
 
-// const stickyTooltips = ["United States of America", "South Africa", "Spain"];
 // Mouseover event handler
 function onMouseOver(d, i) {
 	// Get data for this country
