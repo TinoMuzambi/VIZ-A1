@@ -135,6 +135,8 @@ function onMouseOver(d, i) {
 	// Get data for this country
 	const country = d.target.__data__.properties.name;
 	const streams = byCountry[country]?.streams;
+	const energy = byCountry[country]?.energy;
+	const danceability = byCountry[country]?.danceability;
 
 	// Update tooltip
 	tooltip
@@ -142,6 +144,10 @@ function onMouseOver(d, i) {
 			`
     <div>${country}</div>
     <div>Streams: ${streams ? formatter.format(streams) : 0}</div>
+    <div>Energy: ${energy ? Math.round(energy * 100) / 100 : 0}</div>
+    <div>Danceability: ${
+			danceability ? Math.round(danceability * 100) / 100 : 0
+		}</div>
   `
 		)
 		.style("left", d.pageX + 10 + "px")
