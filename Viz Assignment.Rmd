@@ -34,7 +34,7 @@ write.csv(spotify_sa, "./data/spotify-sa.csv", row.names=FALSE)
 spotify_filtered <- spotify %>% 
   filter(country != "country") %>% 
   filter(country != "Global") %>% 
-  select(X, uri, track_name, streams, week, country, region)
+  select(X, uri, track_name, streams, week, country, region, danceability, energy)
 
 spotify_json <- spotify_filtered %>% 
   toJSON()
