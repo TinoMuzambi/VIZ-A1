@@ -13,12 +13,22 @@ streams.forEach((d) => {
 
 	// If first entry for country, initialize to 0
 	if (!byCountry[country]) {
-		byCountry[country] = { streams: 0, danceability: 0 };
+		byCountry[country] = { streams: 0, danceability: 0, danceabilityTotal: 0 };
 	}
 
 	// Increment country's total streams
 	byCountry[country].streams += streams;
+	byCountry[country].danceabilityTotal += 1;
 	byCountry[country].danceability += danceability;
+});
+
+Object.keys(byCountry).forEach((country) => {
+	byCountry[country].danceability =
+		byCountry[country].danceability / byCountry[country].danceabilityTotal;
+});
+
+Object.keys(byCountry).forEach((country) => {
+	delete byCountry[country].danceabilityTotal;
 });
 
 console.log(byCountry);
