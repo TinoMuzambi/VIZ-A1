@@ -7,7 +7,11 @@ const streamsArray = Object.values(streamsByCountry);
 const maxStreams = Math.max(...streamsArray);
 
 // Define number formatter
-const formatter = new Intl.NumberFormat("en-ZA");
+const formatter = new Intl.NumberFormat("en", {
+	notation: "compact",
+	compactDisplay: "long",
+	maximumFractionDigits: 1,
+});
 
 let width = window.innerWidth - 20;
 let height = window.innerHeight - 25;
@@ -21,7 +25,10 @@ document.addEventListener("resize", () => {
 // Load the world map data
 d3.json("./data/map.json").then(function (mapData) {
 	const colorScale = d3
-		.scaleQuantize([0, maxStreams], d3.schemeGreens[4])
+		.scaleQuantize(
+			[1, maxStreams],
+			["#87fa8e", "#64bd6b", "#427f48", "#1e4025"]
+		)
 		.nice();
 
 	// Create the map projection
@@ -77,7 +84,7 @@ d3.json("./data/map.json").then(function (mapData) {
 	const legendScale = d3
 		.scaleQuantize()
 		.domain([0, maxStreams])
-		.range(d3.schemeGreens[4])
+		.range(["#87fa8e", "#64bd6b", "#427f48", "#1e4025"])
 		.nice();
 
 	const legendEntries = legendScale.range().map((color) => {
@@ -90,7 +97,7 @@ d3.json("./data/map.json").then(function (mapData) {
 
 	legend
 		.selectAll("rect")
-		.data(d3.schemeGreens[4])
+		.data(["#87fa8e", "#64bd6b", "#427f48", "#1e4025"])
 		.enter()
 		.append("rect")
 		.attr("x", 0)
@@ -149,7 +156,7 @@ function onMouseOut() {
 	d3.select(this).style("opacity", 1);
 }
 
-document.getElementById("map-container").addEventListener("click", exportMap);
+document.getElementById("logo").addEventListener("click", exportMap);
 
 function exportMap() {
 	// Get the d3 map svg element
