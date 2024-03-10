@@ -167,6 +167,58 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("xlink:href", "/high-dance.png") // <a href="https://www.flaticon.com/free-icons/nightclub" title="nightclub icons">Nightclub icons created by Leremy - Flaticon</a>
 		.attr("width", 40)
 		.attr("height", 40);
+
+	// Define the danceability scale
+	const danceabilityScale = d3
+		.scaleQuantize()
+		.domain([0, 1])
+		.range([
+			{ label: "Low", icon: "/low-dance.png" },
+			{ label: "Moderate", icon: "/moderate-dance.png" },
+			{ label: "High", icon: "/high-dance.png" },
+		]);
+
+	// Define the dimensions and position of the danceability legend
+	const danceabilityLegendHeight = 60;
+	const danceabilityLegendX = 20;
+	const danceabilityLegendY = height - danceabilityLegendHeight - 100;
+
+	// Create a new group for the danceability legend
+	const danceabilityLegend = svg
+		.append("g")
+		.attr("id", "danceability-legend")
+		.attr(
+			"transform",
+			`translate(${danceabilityLegendX}, ${danceabilityLegendY})`
+		);
+
+	// Append icon elements with text labels
+	danceabilityLegend
+		.selectAll("g")
+		.data(danceabilityScale.range())
+		.enter()
+		.append("g")
+		.attr("transform", (d, i) => `translate(0, ${i * 50})`)
+		.append("image")
+		.attr("xlink:href", (d) => d.icon)
+		.attr("width", 40)
+		.attr("height", 40)
+		.attr("x", 0)
+		.attr("y", 0);
+
+	danceabilityLegend
+		.selectAll("g")
+		.append("text")
+		.attr("x", 50)
+		.attr("y", (d, i) => i * 1 + 20)
+		.text((d) => d.label);
+
+	// Add a title for the danceability legend
+	danceabilityLegend
+		.append("text")
+		.attr("x", 0)
+		.attr("y", -10)
+		.text("Danceability");
 });
 
 // Append tooltip div
