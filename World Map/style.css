@@ -35,9 +35,45 @@ body {
 	/* background: lightBlue; */
 }
 
-img {
+#bg {
 	inset: 0;
 	opacity: 0.7;
 	position: absolute;
 	z-index: 1;
+}
+
+.music {
+	position: absolute;
+	z-index: 1;
+	width: 2rem;
+}
+
+.music.a {
+	bottom: 5rem;
+	left: 8rem;
+	rotate: 30deg;
+}
+
+.music.b {
+	top: 5rem;
+	left: 16rem;
+	rotate: -30deg;
+}
+
+.music.c {
+	top: 5rem;
+	right: 16rem;
+	rotate: -80deg;
+}
+
+.music.d {
+	top: 30rem;
+	right: 8rem;
+	rotate: -30deg;
+}
+
+.music.e {
+	bottom: 5rem;
+	right: 6rem;
+	rotate: 75deg;
 }
