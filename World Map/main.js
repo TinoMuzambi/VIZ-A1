@@ -56,11 +56,19 @@ d3.json("./data/map.json").then(function (mapData) {
 		.enter()
 		.append("path")
 		.attr("d", pathGenerator)
-		.attr("fill", function (d) {
+		// .attr("fill", function (d) {
+		// 	const countryName = d.properties.name;
+		// 	const totalStreams = byCountry[countryName]?.streams || 0;
+		// 	if (totalStreams === 0) return "white";
+		// 	return colorScale(totalStreams);
+		// })
+		.attr("fill", (d) => {
 			const countryName = d.properties.name;
-			const totalStreams = byCountry[countryName]?.streams || 0;
-			if (totalStreams === 0) return "white";
-			return colorScale(totalStreams);
+			const danceability = byCountry[countryName]?.danceability || 0;
+			if (!danceability) return "white";
+			else if (danceability < 0.33) return "url(#low-danceability)";
+			else if (danceability < 0.67) return "url(#moderate-danceability)";
+			else return "url(#high-danceability)";
 		})
 		.style("stroke", "#00441b")
 		.style("stroke-width", 1);
@@ -121,6 +129,44 @@ d3.json("./data/map.json").then(function (mapData) {
 		.text((d) => d);
 
 	legend.append("text").attr("x", 0).attr("y", -10).text("Streams");
+
+	const defs = svg.append("defs");
+
+	// Low danceability pattern
+	defs
+		.append("pattern")
+		.attr("id", "low-danceability")
+		.attr("patternUnits", "userSpaceOnUse")
+		.attr("width", 20) // Adjust the width and height based on your icon size
+		.attr("height", 20)
+		.append("image")
+		.attr("xlink:href", "/low-dance.png") // <a href="https://www.flaticon.com/free-icons/person" title="person icons">Person icons created by Uniconlabs - Flaticon</a>
+		.attr("width", 20)
+		.attr("height", 20);
+
+	// Moderate danceability pattern
+	defs
+		.append("pattern")
+		.attr("id", "moderate-danceability")
+		.attr("patternUnits", "userSpaceOnUse")
+		.attr("width", 20)
+		.attr("height", 20)
+		.append("image")
+		.attr("xlink:href", "/moderate-dance.png") // <a href="https://www.flaticon.com/free-icons/fun" title="fun icons">Fun icons created by Freepik - Flaticon</a>
+		.attr("width", 20)
+		.attr("height", 20);
+
+	// High danceability pattern
+	defs
+		.append("pattern")
+		.attr("id", "high-danceability")
+		.attr("patternUnits", "userSpaceOnUse")
+		.attr("width", 40)
+		.attr("height", 40)
+		.append("image")
+		.attr("xlink:href", "/high-dance.png") // <a href="https://www.flaticon.com/free-icons/nightclub" title="nightclub icons">Nightclub icons created by Leremy - Flaticon</a>
+		.attr("width", 40)
+		.attr("height", 40);
 });
 
 // Append tooltip div
@@ -167,7 +213,7 @@ function onMouseOut() {
 	d3.select(this).style("opacity", 1);
 }
 
-document.getElementById("logo").addEventListener("click", exportMap);
+// document.getElementById("logo").addEventListener("click", exportMap);
 
 function exportMap() {
 	// Get the d3 map svg element
