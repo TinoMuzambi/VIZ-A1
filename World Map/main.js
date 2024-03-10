@@ -1,10 +1,15 @@
-import streamsByCountry from "./data/streamsByCountry.json";
+import byCountry from "./data/byCountry.json";
+// Changes:
+// United States -> United States of America
+// Czech Republic -> Czechia
+// Dominican Republic -> Dominican Rep.
+// Korea -> South Korea
 
 // Get array of all stream values
-const streamsArray = Object.values(streamsByCountry);
+const dataArray = Object.values(byCountry);
 
 // Find maximum value
-const maxStreams = Math.max(...streamsArray);
+const maxStreams = Math.max(...dataArray.map((country) => country.streams));
 
 // Define number formatter
 const formatter = new Intl.NumberFormat("en", {
@@ -53,7 +58,7 @@ d3.json("./data/map.json").then(function (mapData) {
 		.attr("d", pathGenerator)
 		.attr("fill", function (d) {
 			const countryName = d.properties.name;
-			const totalStreams = streamsByCountry[countryName] || 0;
+			const totalStreams = byCountry[countryName]?.streams || 0;
 			if (totalStreams === 0) return "white";
 			return colorScale(totalStreams);
 		})
@@ -129,7 +134,7 @@ const tooltip = d3
 function onMouseOver(d, i) {
 	// Get data for this country
 	const country = d.target.__data__.properties.name;
-	const streams = streamsByCountry[country];
+	const streams = byCountry[country]?.streams;
 
 	// Update tooltip
 	tooltip
