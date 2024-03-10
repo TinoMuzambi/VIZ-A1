@@ -1,1 +1,367 @@
-{"Argentina":{"streams":16132675156,"danceability":null,"energy":null},"Australia":{"streams":8577834547,"danceability":0.6709027452061981,"energy":0.6493582976962309},"Austria":{"streams":1503568561,"danceability":0.7052502783620008,"energy":0.6866883170439889},"Belarus":{"streams":88062934,"danceability":0.7012630590645259,"energy":0.6575579549334297},"Belgium":{"streams":2332516154,"danceability":null,"energy":null},"Bolivia":{"streams":1130077317,"danceability":0.7285486679975341,"energy":0.6805497349762464},"Brazil":{"streams":45539903808,"danceability":0.6913383552831762,"energy":0.6832355350915782},"Bulgaria":{"streams":242126761,"danceability":0.7090281965263843,"energy":0.6966730307019312},"Canada":{"streams":8804769791,"danceability":0.6841129681483907,"energy":0.6305172602380131},"Chile":{"streams":14753403242,"danceability":0.752897827835874,"energy":0.7011164057181845},"Colombia":{"streams":5488934632,"danceability":null,"energy":null},"Costa Rica":{"streams":1446177823,"danceability":0.7279738282489796,"energy":0.6668201128548847},"Cyprus":{"streams":129551886,"danceability":0.7012939760019495,"energy":0.6564632764672218},"Czech Republic":{"streams":1307534414,"danceability":0.6868631381283138,"energy":0.6763525437791632},"Denmark":{"streams":2890677888,"danceability":0.7060773459308303,"energy":0.6588554090616195},"Dominican Republic":{"streams":953738193,"danceability":0.7519921280248508,"energy":0.702478596650385},"Ecuador":{"streams":2304176476,"danceability":0.7356391939439338,"energy":0.6907029534065493},"Egypt":{"streams":496048440,"danceability":0.7164623531118308,"energy":0.6438548769283217},"El Salvador":{"streams":1057262181,"danceability":0.7316572567028955,"energy":0.6834712635915454},"Estonia":{"streams":197618559,"danceability":0.685169274228615,"energy":0.6930127422859592},"Finland":{"streams":1842033051,"danceability":null,"energy":null},"France":{"streams":14600053949,"danceability":null,"energy":null},"Germany":{"streams":19940058608,"danceability":0.7186066889632101,"energy":0.677082518197902},"Greece":{"streams":2107214204,"danceability":0.7236751341172959,"energy":0.6668196752762229},"Guatemala":{"streams":2093017457,"danceability":0.722333807879855,"energy":0.6664380894757496},"Honduras":{"streams":734514556,"danceability":0.7264674477339543,"energy":0.6772930756278929},"Hong Kong":{"streams":856406638,"danceability":0.6052249566348509,"energy":0.5814473655680812},"Hungary":{"streams":1022271935,"danceability":0.7085306019856685,"energy":0.6888525826316079},"Iceland":{"streams":207791618,"danceability":null,"energy":null},"India":{"streams":20428896987,"danceability":0.653311477687081,"energy":0.6381762111478014},"Indonesia":{"streams":10159856605,"danceability":null,"energy":null},"Ireland":{"streams":1809324137,"danceability":0.6611787121598144,"energy":0.6673839367669337},"Israel":{"streams":1065857766,"danceability":0.661360029870231,"energy":0.5975429851581949},"Italy":{"streams":16411983779,"danceability":null,"energy":null},"Japan":{"streams":7322663955,"danceability":0.6110721575649034,"energy":0.7309915249179335},"Kazakhstan":{"streams":77795616,"danceability":0.6959794225024949,"energy":0.6668064719548709},"Korea":{"streams":446007671,"danceability":0.6628028741608787,"energy":0.6605484731020211},"Latvia":{"streams":218155767,"danceability":0.6942549134776043,"energy":0.6596869019111501},"Lithuania":{"streams":280619161,"danceability":0.6864503464203212,"energy":0.6531456720553938},"Luxembourg":{"streams":135182192,"danceability":null,"energy":null},"Malaysia":{"streams":1860337393,"danceability":0.6236207484751128,"energy":0.5914279127468238},"Mexico":{"streams":33118336035,"danceability":0.7128639901517099,"energy":0.6504436105154495},"Morocco":{"streams":617000856,"danceability":null,"energy":null},"Netherlands":{"streams":9298384177,"danceability":0.6941817820523021,"energy":0.6568612272474452},"New Zealand":{"streams":1578897513,"danceability":0.672096659051952,"energy":0.6213500713877828},"Nicaragua":{"streams":400663350,"danceability":0.7292003226484999,"energy":0.6767377779336461},"Nigeria":{"streams":224006524,"danceability":0.7328151605147827,"energy":0.6516557488332553},"Norway":{"streams":3541167831,"danceability":null,"energy":null},"Pakistan":{"streams":102983691,"danceability":0.676825352112675,"energy":0.5967951344430216},"Panama":{"streams":857349783,"danceability":0.7237079980610555,"energy":0.6827993536920662},"Paraguay":{"streams":2196081558,"danceability":0.7301177329924555,"energy":0.6876709386101877},"Peru":{"streams":5867678731,"danceability":0.7338432351131469,"energy":0.7002628358515198},"Philippines":{"streams":8677192053,"danceability":null,"energy":null},"Poland":{"streams":11180326845,"danceability":null,"energy":null},"Portugal":{"streams":1906210190,"danceability":0.6927672522451315,"energy":0.6208606507011407},"Romania":{"streams":705081642,"danceability":0.7252943721142954,"energy":0.6619087974709906},"Saudi Arabia":{"streams":507261455,"danceability":0.6686200810757132,"energy":0.645470590270914},"Singapore":{"streams":1486605970,"danceability":0.6249922855846088,"energy":0.593804497554598},"Slovakia":{"streams":544987327,"danceability":0.701994736203789,"energy":0.6800766994137681},"South Africa":{"streams":1286179282,"danceability":0.7275946851569414,"energy":0.5902612169066526},"Spain":{"streams":21169588904,"danceability":0.7364464622641724,"energy":0.7075255660377685},"Sweden":{"streams":5422919724,"danceability":0.6723048589713,"energy":0.6339360891206409},"Switzerland":{"streams":1806095883,"danceability":0.6989798663290263,"energy":0.6762414629083675},"Taiwan":{"streams":1565647220,"danceability":0.6011202617943716,"energy":0.5730641941641659},"Thailand":{"streams":2211390343,"danceability":0.6504860543147372,"energy":0.6147662000629069},"Turkey":{"streams":9980608601,"danceability":0.6679980356602976,"energy":0.6157702024781053},"United Arab Emirates":{"streams":367379651,"danceability":0.680286826940357,"energy":0.622256176841345},"United Kingdom":{"streams":15682121435,"danceability":0.6747814054725969,"energy":0.6668140191897649},"Ukraine":{"streams":841290157,"danceability":0.7193722398974194,"energy":0.6541982525286183},"Uruguay":{"streams":1117615013,"danceability":null,"energy":null},"United States":{"streams":57853815777,"danceability":0.6807123955745935,"energy":0.6194172589749505},"Venezuela":{"streams":184467772,"danceability":0.7295830033003324,"energy":0.7006035973597349},"Vietnam":{"streams":1619532953,"danceability":0.6824300082727339,"energy":0.5450929028606424}}
+{
+	"Argentina": {
+		"streams": 16079737391,
+		"danceability": 0.7281996869257656,
+		"energy": 0.6769540257265346
+	},
+	"Australia": {
+		"streams": 8577834547,
+		"danceability": 0.6709027452061981,
+		"energy": 0.6493582976962309
+	},
+	"Austria": {
+		"streams": 1503568561,
+		"danceability": 0.7052502783620008,
+		"energy": 0.6866883170439889
+	},
+	"Belarus": {
+		"streams": 88062934,
+		"danceability": 0.7012630590645259,
+		"energy": 0.6575579549334297
+	},
+	"Belgium": {
+		"streams": 2331816484,
+		"danceability": 0.6917758841073648,
+		"energy": 0.6730666553046577
+	},
+	"Bolivia": {
+		"streams": 1130077317,
+		"danceability": 0.7285486679975341,
+		"energy": 0.6805497349762464
+	},
+	"Brazil": {
+		"streams": 45539903808,
+		"danceability": 0.6913383552831762,
+		"energy": 0.6832355350915782
+	},
+	"Bulgaria": {
+		"streams": 242126761,
+		"danceability": 0.7090281965263843,
+		"energy": 0.6966730307019312
+	},
+	"Canada": {
+		"streams": 8804769791,
+		"danceability": 0.6841129681483907,
+		"energy": 0.6305172602380131
+	},
+	"Chile": {
+		"streams": 14753403242,
+		"danceability": 0.752897827835874,
+		"energy": 0.7011164057181845
+	},
+	"Colombia": {
+		"streams": 5488724213,
+		"danceability": 0.734426701850735,
+		"energy": 0.6881022358520852
+	},
+	"Costa Rica": {
+		"streams": 1446177823,
+		"danceability": 0.7279738282489796,
+		"energy": 0.6668201128548847
+	},
+	"Cyprus": {
+		"streams": 129551886,
+		"danceability": 0.7012939760019495,
+		"energy": 0.6564632764672218
+	},
+	"Czech Republic": {
+		"streams": 1307534414,
+		"danceability": 0.6868631381283138,
+		"energy": 0.6763525437791632
+	},
+	"Denmark": {
+		"streams": 2890677888,
+		"danceability": 0.7060773459308303,
+		"energy": 0.6588554090616195
+	},
+	"Dominican Republic": {
+		"streams": 953738193,
+		"danceability": 0.7519921280248508,
+		"energy": 0.702478596650385
+	},
+	"Ecuador": {
+		"streams": 2304176476,
+		"danceability": 0.7356391939439338,
+		"energy": 0.6907029534065493
+	},
+	"Egypt": {
+		"streams": 496048440,
+		"danceability": 0.7164623531118308,
+		"energy": 0.6438548769283217
+	},
+	"El Salvador": {
+		"streams": 1057262181,
+		"danceability": 0.7316572567028955,
+		"energy": 0.6834712635915454
+	},
+	"Estonia": {
+		"streams": 197618559,
+		"danceability": 0.685169274228615,
+		"energy": 0.6930127422859592
+	},
+	"Finland": {
+		"streams": 1839622451,
+		"danceability": 0.677936817200345,
+		"energy": 0.6925020820507976
+	},
+	"France": {
+		"streams": 14582176999,
+		"danceability": 0.7354669635335315,
+		"energy": 0.6788334737433164
+	},
+	"Germany": {
+		"streams": 19940058608,
+		"danceability": 0.7186066889632101,
+		"energy": 0.677082518197902
+	},
+	"Greece": {
+		"streams": 2107214204,
+		"danceability": 0.7236751341172959,
+		"energy": 0.6668196752762229
+	},
+	"Guatemala": {
+		"streams": 2093017457,
+		"danceability": 0.722333807879855,
+		"energy": 0.6664380894757496
+	},
+	"Honduras": {
+		"streams": 734514556,
+		"danceability": 0.7264674477339543,
+		"energy": 0.6772930756278929
+	},
+	"Hong Kong": {
+		"streams": 856406638,
+		"danceability": 0.6052249566348509,
+		"energy": 0.5814473655680812
+	},
+	"Hungary": {
+		"streams": 1022271935,
+		"danceability": 0.7085306019856685,
+		"energy": 0.6888525826316079
+	},
+	"Iceland": {
+		"streams": 207692522,
+		"danceability": 0.6632119962511542,
+		"energy": 0.5776306654170603
+	},
+	"India": {
+		"streams": 20428896987,
+		"danceability": 0.653311477687081,
+		"energy": 0.6381762111478014
+	},
+	"Indonesia": {
+		"streams": 10150313003,
+		"danceability": 0.5793894145950269,
+		"energy": 0.5266122801389944
+	},
+	"Ireland": {
+		"streams": 1809324137,
+		"danceability": 0.6611787121598144,
+		"energy": 0.6673839367669337
+	},
+	"Israel": {
+		"streams": 1065857766,
+		"danceability": 0.661360029870231,
+		"energy": 0.5975429851581949
+	},
+	"Italy": {
+		"streams": 16403287788,
+		"danceability": 0.6862370745450631,
+		"energy": 0.7021331378968941
+	},
+	"Japan": {
+		"streams": 7322663955,
+		"danceability": 0.6110721575649034,
+		"energy": 0.7309915249179335
+	},
+	"Kazakhstan": {
+		"streams": 77795616,
+		"danceability": 0.6959794225024949,
+		"energy": 0.6668064719548709
+	},
+	"Korea": {
+		"streams": 446007671,
+		"danceability": 0.6628028741608787,
+		"energy": 0.6605484731020211
+	},
+	"Latvia": {
+		"streams": 218155767,
+		"danceability": 0.6942549134776043,
+		"energy": 0.6596869019111501
+	},
+	"Lithuania": {
+		"streams": 280619161,
+		"danceability": 0.6864503464203212,
+		"energy": 0.6531456720553938
+	},
+	"Luxembourg": {
+		"streams": 135077874,
+		"danceability": 0.7064370415898312,
+		"energy": 0.6709085515263264
+	},
+	"Malaysia": {
+		"streams": 1860337393,
+		"danceability": 0.6236207484751128,
+		"energy": 0.5914279127468238
+	},
+	"Mexico": {
+		"streams": 33118336035,
+		"danceability": 0.7128639901517099,
+		"energy": 0.6504436105154495
+	},
+	"Morocco": {
+		"streams": 615146102,
+		"danceability": 0.7103022793131554,
+		"energy": 0.6207253232991861
+	},
+	"Netherlands": {
+		"streams": 9298384177,
+		"danceability": 0.6941817820523021,
+		"energy": 0.6568612272474452
+	},
+	"New Zealand": {
+		"streams": 1578897513,
+		"danceability": 0.672096659051952,
+		"energy": 0.6213500713877828
+	},
+	"Nicaragua": {
+		"streams": 400663350,
+		"danceability": 0.7292003226484999,
+		"energy": 0.6767377779336461
+	},
+	"Nigeria": {
+		"streams": 224006524,
+		"danceability": 0.7328151605147827,
+		"energy": 0.6516557488332553
+	},
+	"Norway": {
+		"streams": 3541005451,
+		"danceability": 0.6605474396914873,
+		"energy": 0.6381592592592515
+	},
+	"Pakistan": {
+		"streams": 102983691,
+		"danceability": 0.676825352112675,
+		"energy": 0.5967951344430216
+	},
+	"Panama": {
+		"streams": 857349783,
+		"danceability": 0.7237079980610555,
+		"energy": 0.6827993536920662
+	},
+	"Paraguay": {
+		"streams": 2196081558,
+		"danceability": 0.7301177329924555,
+		"energy": 0.6876709386101877
+	},
+	"Peru": {
+		"streams": 5867678731,
+		"danceability": 0.7338432351131469,
+		"energy": 0.7002628358515198
+	},
+	"Philippines": {
+		"streams": 8659573923,
+		"danceability": 0.6204667438433659,
+		"energy": 0.5489937802567741
+	},
+	"Poland": {
+		"streams": 11179407812,
+		"danceability": 0.7338033618270118,
+		"energy": 0.653686846134215
+	},
+	"Portugal": {
+		"streams": 1906210190,
+		"danceability": 0.6927672522451315,
+		"energy": 0.6208606507011407
+	},
+	"Romania": {
+		"streams": 705081642,
+		"danceability": 0.7252943721142954,
+		"energy": 0.6619087974709906
+	},
+	"Saudi Arabia": {
+		"streams": 507261455,
+		"danceability": 0.6686200810757132,
+		"energy": 0.645470590270914
+	},
+	"Singapore": {
+		"streams": 1486605970,
+		"danceability": 0.6249922855846088,
+		"energy": 0.593804497554598
+	},
+	"Slovakia": {
+		"streams": 544987327,
+		"danceability": 0.701994736203789,
+		"energy": 0.6800766994137681
+	},
+	"South Africa": {
+		"streams": 1286179282,
+		"danceability": 0.7275946851569414,
+		"energy": 0.5902612169066526
+	},
+	"Spain": {
+		"streams": 21169588904,
+		"danceability": 0.7364464622641724,
+		"energy": 0.7075255660377685
+	},
+	"Sweden": {
+		"streams": 5422919724,
+		"danceability": 0.6723048589713,
+		"energy": 0.6339360891206409
+	},
+	"Switzerland": {
+		"streams": 1806095883,
+		"danceability": 0.6989798663290263,
+		"energy": 0.6762414629083675
+	},
+	"Taiwan": {
+		"streams": 1565647220,
+		"danceability": 0.6011202617943716,
+		"energy": 0.5730641941641659
+	},
+	"Thailand": {
+		"streams": 2211390343,
+		"danceability": 0.6504860543147372,
+		"energy": 0.6147662000629069
+	},
+	"Turkey": {
+		"streams": 9980608601,
+		"danceability": 0.6679980356602976,
+		"energy": 0.6157702024781053
+	},
+	"United Arab Emirates": {
+		"streams": 367379651,
+		"danceability": 0.680286826940357,
+		"energy": 0.622256176841345
+	},
+	"United Kingdom": {
+		"streams": 15682121435,
+		"danceability": 0.6747814054725969,
+		"energy": 0.6668140191897649
+	},
+	"Ukraine": {
+		"streams": 841290157,
+		"danceability": 0.7193722398974194,
+		"energy": 0.6541982525286183
+	},
+	"Uruguay": {
+		"streams": 1115319263,
+		"danceability": 0.7320568657774484,
+		"energy": 0.6832572652877175
+	},
+	"United States": {
+		"streams": 57853815777,
+		"danceability": 0.6807123955745935,
+		"energy": 0.6194172589749505
+	},
+	"Venezuela": {
+		"streams": 184467772,
+		"danceability": 0.7295830033003324,
+		"energy": 0.7006035973597349
+	},
+	"Vietnam": {
+		"streams": 1619532953,
+		"danceability": 0.6824300082727339,
+		"energy": 0.5450929028606424
+	}
+}

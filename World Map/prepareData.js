@@ -12,6 +12,8 @@ streams.forEach((d) => {
 	const danceability = parseFloat(d.danceability);
 	const energy = parseFloat(d.energy);
 
+	if (isNaN(energy)) return;
+
 	// If first entry for country, initialize to 0
 	if (!byCountry[country]) {
 		byCountry[country] = {
