@@ -64,7 +64,7 @@
 		"danceability": 0.7012939760019495,
 		"energy": 0.6564632764672218
 	},
-	"Czech Republic": {
+	"Czechia": {
 		"streams": 1307534414,
 		"danceability": 0.6868631381283138,
 		"energy": 0.6763525437791632
@@ -74,7 +74,7 @@
 		"danceability": 0.7060773459308303,
 		"energy": 0.6588554090616195
 	},
-	"Dominican Republic": {
+	"Dominican Rep.": {
 		"streams": 953738193,
 		"danceability": 0.7519921280248508,
 		"energy": 0.702478596650385
@@ -179,7 +179,7 @@
 		"danceability": 0.6959794225024949,
 		"energy": 0.6668064719548709
 	},
-	"Korea": {
+	"South Korea": {
 		"streams": 446007671,
 		"danceability": 0.6628028741608787,
 		"energy": 0.6605484731020211
@@ -349,7 +349,7 @@
 		"danceability": 0.7320568657774484,
 		"energy": 0.6832572652877175
 	},
-	"United States": {
+	"United States of America": {
 		"streams": 57853815777,
 		"danceability": 0.6807123955745935,
 		"energy": 0.6194172589749505
