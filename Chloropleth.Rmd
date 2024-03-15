@@ -1,0 +1,94 @@
+---
+title: "Chloropleth"
+output: pdf_document
+date: "2024-03-15"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Libraries
+
+```{r}
+library(tidyverse)
+library(tmap)
+library(sf)
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(png)
+```
+
+# Read in data
+
+```{r}
+spotify <- read.csv("./data/final.csv")%>% 
+  filter(country != "country") %>% 
+  filter(country != "Global") %>% 
+  select(X, uri, track_name, streams, week, country, region, danceability, energy)
+```
+
+
+# Fix data
+
+```{r}
+spotify <- spotify %>% 
+  mutate(streams = as.numeric(streams), danceability = as.numeric(danceability), energy = as.numeric(energy))
+```
+
+
+
+# Group data by country
+
+```{r}
+spotify.country <- spotify %>% 
+  group_by(country) %>% 
+  summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy))
+```
+
+# Get world map data
+
+```{r}
+world <- ne_countries(scale = "medium", returnclass = "sf")
+```
+
+# Join world map with Spotify data
+
+```{r}
+world_data <- left_join(world, spotify.country, by = c("sovereignt" = "country"))
+```
+
+
+# Setup danceability icons
+
+```{r}
+low.dance.icon <- readPNG("./World Map/public/low-dance.png")
+moderate.dance.icon <- readPNG("./World Map/public/moderate-dance.png")
+high.dance.icon <- readPNG("./World Map/public/high-dance.png")
+```
+
+# Create mapping of icons
+
+```{r}
+danceability.pattern <- function(danceability) {
+  pattern <- switch(
+    as.character(cut(danceability, breaks = c(-Inf, 0.33, 0.66, Inf))),
+    "(-Inf,0.33]" = rep(list(low.icon), 5),
+    "(0.33,0.66]" = rep(list(moderate.icon), 5),
+    "(0.66, Inf]" = rep(list(high.icon), 5)
+  )
+  return(pattern)
+}
+```
+
+
+# Create chloropleth
+
+```{r}
+tm_shape(world_data) +
+  tm_fill("streams", title = "Spotify Streams") +
+  tm_bubbles(col = "danceability", size = 0.5, shape = danceability.pattern, palette = "Spectral", 
+             title.col = "Average Danceability", 
+             style = "cont", border.col = "black", border.lwd = 0.5)
+```
+
