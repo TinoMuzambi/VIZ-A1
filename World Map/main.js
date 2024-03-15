@@ -56,12 +56,6 @@ d3.json("./data/map.json").then(function (mapData) {
 		.enter()
 		.append("path")
 		.attr("d", pathGenerator)
-		// .attr("fill", function (d) {
-		// 	const countryName = d.properties.name;
-		// 	const totalStreams = byCountry[countryName]?.streams || 0;
-		// 	if (totalStreams === 0) return "white";
-		// 	return colorScale(totalStreams);
-		// })
 		.attr("fill", (d) => {
 			const countryName = d.properties.name;
 			const danceability = byCountry[countryName]?.danceability || 0;
@@ -69,6 +63,12 @@ d3.json("./data/map.json").then(function (mapData) {
 			else if (danceability < 0.33) return "url(#low-danceability)";
 			else if (danceability < 0.67) return "url(#moderate-danceability)";
 			else return "url(#high-danceability)";
+		})
+		.attr("fill", function (d) {
+			const countryName = d.properties.name;
+			const totalStreams = byCountry[countryName]?.streams || 0;
+			if (totalStreams === 0) return "white";
+			return colorScale(totalStreams);
 		})
 		.style("stroke", "#00441b")
 		.style("stroke-width", 1);
@@ -265,7 +265,7 @@ function onMouseOut() {
 	d3.select(this).style("opacity", 1);
 }
 
-// document.getElementById("logo").addEventListener("click", exportMap);
+document.querySelector(".music.a").addEventListener("click", exportMap);
 
 function exportMap() {
 	// Get the d3 map svg element
