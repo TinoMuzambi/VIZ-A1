@@ -111,7 +111,7 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
              scale = 0.7) + 
   tm_shape(world.data) +
   tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, scale = 0.5, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F )
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
 streams.energy.loud.dance
 ```
 
@@ -139,7 +139,7 @@ sa.streams.energy.loud.dance <- tm_shape(sa.data, title = "Streams") +
              sizes.legend = c(0.6, 0.79, 1)) + 
   tm_shape(sa.data) +
   tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F )
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
 sa.streams.energy.loud.dance
 ```
 
