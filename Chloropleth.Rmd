@@ -25,25 +25,17 @@ library(png)
 spotify <- read.csv("./data/final.csv")%>% 
   filter(country != "country") %>% 
   filter(country != "Global") %>% 
-  select(streams, country, danceability, energy)
+  dplyr::select(streams, country, danceability, energy, loudness, liveness, acousticness, speechiness) %>% 
+  mutate(streams = as.numeric(streams), danceability = as.numeric(danceability), energy = as.numeric(energy), loudness = as.numeric(loudness), liveness = as.numeric(liveness), acousticness = as.numeric(acousticness), speechiness = as.numeric(speechiness))
 ```
-
-
-# Fix data
-
-```{r}
-spotify <- spotify %>% 
-  mutate(streams = as.numeric(streams), danceability = as.numeric(danceability), energy = as.numeric(energy))
-```
-
-
 
 # Group data by country
 
 ```{r}
 spotify.country <- spotify %>% 
   group_by(country) %>% 
-  summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy))
+  summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy), loudness = mean(loudness), liveness = mean(liveness), acousticness = mean(acousticness), speechiness = mean(speechiness)) %>% 
+  mutate(dancelevel = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high")))
 ```
 
 # Fix country names
@@ -74,9 +66,10 @@ world.data <- left_join(world, spotify.country, by = c("sovereignt" = "country")
 # Setup danceability icons
 
 ```{r}
-low.dance.icon <- readPNG("./World Map/public/low-dance.png")
-moderate.dance.icon <- readPNG("./World Map/public/moderate-dance.png")
-high.dance.icon <- readPNG("./World Map/public/high-dance.png")
+dance.icons = tmap_icons(c("./World Map/public/high-dance.png", 
+                        "./World Map/public/moderate-dance.png",
+                        "./World Map/public/low-dance.png" 
+                        ))
 ```
 
 # Create chloropleths.
@@ -84,34 +77,54 @@ high.dance.icon <- readPNG("./World Map/public/high-dance.png")
 ```{r}
 breaks <- c(0, 15e9, 30e9, 45e9, 60e9)
 
+streams.energy.dance1 <- tm_shape(world.data, title = "Streams") +
+  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+  tm_shape(world.data) +
+  tm_bubbles("energy", col = "danceability", n = 3,
+             style="fixed", breaks=c(0, 0.33, 0.66, 1),
+             palette="Blues", contrast=1, 
+             title.size="Energy", 
+             title.col="Danceability") + 
+  tm_format("World") + 
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
+streams.energy.dance1
+
 streams.energy.dance <- tm_shape(world.data, title = "Streams") +
   tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
   tm_shape(world.data) +
-  tm_bubbles("danceability", col = "energy", 
-             style="fixed", breaks=c(0, 0.33, 0.66, 1),
-             size = 0.2,
-             palette="Blues", contrast=1, 
-             title.size="Danceability", 
-             title.col="Energy") + 
-  tm_format("World") + 
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
+  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") + 
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F)
 streams.energy.dance
 ```
 
 ```{r}
-breaks <- c(0, 15e9, 30e9, 45e9, 60e9)
-
 streams.loudness.dance <- tm_shape(world.data, title = "Streams") +
-  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+   tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
   tm_shape(world.data) +
-  tm_bubbles("danceability", col = "energy", 
+  tm_bubbles("loudness", col = "danceability", 
              style="fixed", breaks=c(0, 0.33, 0.66, 1),
              size = 0.2,
              palette="Blues", contrast=1, 
-             title.size="Danceability", 
-             title.col="Energy") + 
+             title.size="Loudness", 
+             title.col="Danceability") + 
   tm_format("World") + 
   tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
 streams.loudness.dance
+```
+
+
+```{r}
+streams.liveness.dance <- tm_shape(world.data, title = "Streams") +
+   tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+  tm_shape(world.data) +
+  tm_bubbles("liveness", col = "danceability", 
+             style="fixed", breaks=c(0, 0.33, 0.66, 1),
+             size = 0.2,
+             palette="Blues", contrast=1, 
+             title.size="Liveness", 
+             title.col="Danceability") + 
+  tm_format("World") + 
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
+streams.liveness.dance
 ```
 
