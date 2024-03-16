@@ -16,6 +16,7 @@ library(tmap)
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
+library(scales)
 ```
 
 # Read in data
@@ -114,6 +115,60 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
   tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
 streams.energy.loud.dance
 ```
+
+# Distributions
+
+```{r}
+# Streams distribution
+
+streams.dist <- spotify.country %>% 
+  ggplot(aes(streams)) +
+  geom_histogram(binwidth = 2 * IQR(spotify.country$streams) / length(spotify.country$streams)^(1/3), fill="lightgreen", width = 0.1) +
+  theme_minimal() +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(breaks = seq(min(spotify.country$streams), max(spotify.country$streams), length.out = 5), labels = label_number(scale = 1/1e9, suffix = " billion")) +
+  theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
+streams.dist
+```
+
+```{r}
+# Loudness distribution
+
+loudness.dist <- spotify.country %>% 
+  ggplot(aes(logloudness)) +
+  geom_histogram(binwidth = 2 * IQR(spotify.country$logloudness, na.rm = T) / length(spotify.country$logloudness)^(1/3), fill="lightgreen", width = 0.1) +
+  theme_minimal() +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
+  theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
+loudness.dist
+```
+
+```{r}
+# Energy Distribution
+
+energy.dist <- spotify.country %>% 
+  ggplot(aes(energy)) +
+  geom_histogram(binwidth = 2 * IQR(spotify.country$energy, na.rm = T) / length(spotify.country$energy)^(1/3), fill="lightgreen", width = 0.1) +
+  theme_minimal() +
+  labs(x = NULL, y = NULL) +
+  scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
+  theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
+energy.dist
+```
+
+```{r}
+# Danceability Distribution
+
+danceability.dist <- spotify.country %>% 
+  ggplot(aes(dancelevel)) +
+  geom_bar(fill="lightgreen", position = position_dodge(width = 0.1)) +
+  theme_minimal() +
+  labs(x = NULL, y = NULL) +
+  theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
+danceability.dist
+```
+
 
 # South Africa Zoom
 
