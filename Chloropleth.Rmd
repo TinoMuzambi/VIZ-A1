@@ -25,7 +25,7 @@ library(png)
 spotify <- read.csv("./data/final.csv")%>% 
   filter(country != "country") %>% 
   filter(country != "Global") %>% 
-  select(X, uri, track_name, streams, week, country, region, danceability, energy)
+  select(streams, country, danceability, energy)
 ```
 
 
@@ -46,16 +46,28 @@ spotify.country <- spotify %>%
   summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy))
 ```
 
+# Fix country names
+
+```{r}
+spotify.country <- spotify.country %>% 
+  mutate(country = ifelse(country == "United States", "United States of America", country)) %>% 
+  mutate(country = ifelse(country == "Czech Republic", "Czechia", country)) %>% 
+  mutate(country = ifelse(country == "Dominican Republic", "Dominican Rep.", country)) %>% 
+  mutate(country = ifelse(country == "Korea", "South Korea", country))
+```
+
+
 # Get world map data
 
 ```{r}
-world <- ne_countries(scale = "medium", returnclass = "sf")
+world <- ne_countries(scale = "medium", returnclass = "sf") %>% 
+  filter(sovereignt != "Antarctica")
 ```
 
 # Join world map with Spotify data
 
 ```{r}
-world_data <- left_join(world, spotify.country, by = c("sovereignt" = "country"))
+world.data <- left_join(world, spotify.country, by = c("sovereignt" = "country"))
 ```
 
 
@@ -67,28 +79,39 @@ moderate.dance.icon <- readPNG("./World Map/public/moderate-dance.png")
 high.dance.icon <- readPNG("./World Map/public/high-dance.png")
 ```
 
-# Create mapping of icons
+# Create chloropleths.
 
 ```{r}
-danceability.pattern <- function(danceability) {
-  pattern <- switch(
-    as.character(cut(danceability, breaks = c(-Inf, 0.33, 0.66, Inf))),
-    "(-Inf,0.33]" = rep(list(low.icon), 5),
-    "(0.33,0.66]" = rep(list(moderate.icon), 5),
-    "(0.66, Inf]" = rep(list(high.icon), 5)
-  )
-  return(pattern)
-}
+breaks <- c(0, 15e9, 30e9, 45e9, 60e9)
+
+streams.energy.dance <- tm_shape(world.data, title = "Streams") +
+  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+  tm_shape(world.data) +
+  tm_bubbles("danceability", col = "energy", 
+             style="fixed", breaks=c(0, 0.33, 0.66, 1),
+             size = 0.2,
+             palette="Blues", contrast=1, 
+             title.size="Danceability", 
+             title.col="Energy") + 
+  tm_format("World") + 
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
+streams.energy.dance
 ```
 
-
-# Create chloropleth
-
 ```{r}
-tm_shape(world_data) +
-  tm_fill("streams", title = "Spotify Streams") +
-  tm_bubbles(col = "danceability", size = 0.5, shape = danceability.pattern, palette = "Spectral", 
-             title.col = "Average Danceability", 
-             style = "cont", border.col = "black", border.lwd = 0.5)
+breaks <- c(0, 15e9, 30e9, 45e9, 60e9)
+
+streams.loudness.dance <- tm_shape(world.data, title = "Streams") +
+  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+  tm_shape(world.data) +
+  tm_bubbles("danceability", col = "energy", 
+             style="fixed", breaks=c(0, 0.33, 0.66, 1),
+             size = 0.2,
+             palette="Blues", contrast=1, 
+             title.size="Danceability", 
+             title.col="Energy") + 
+  tm_format("World") + 
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T)
+streams.loudness.dance
 ```
 
