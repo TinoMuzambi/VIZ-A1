@@ -83,8 +83,9 @@ streams.energy.dance1 <- tm_shape(world.data, title = "Streams") +
   tm_borders(col = "black", lwd = 0.5) +
   tm_shape(world.data) +
   tm_bubbles("energy", col = "danceability", n = 3,
-             style="fixed", breaks=c(0, 0.33, 0.66, 1),
-             palette="Blues", contrast=1, 
+             style="fixed", 
+             breaks=c(0, 0.33, 0.66, 1),
+             palette="Blues",
              size = 0.2,
              title.size="Energy", 
              title.col="Danceability") + 
@@ -101,9 +102,9 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
              col = "energy",
              shape = 22,
              style="fixed", 
+             border.lwd = 0.1,
              breaks=c(0.5, 0.6, 0.7, 0.8),
              palette="Blues", 
-             contrast=1, 
              title.size="Loudness", 
              title.col="Energy",
              sizes.legend = c(0.6, 0.79, 1),
@@ -113,3 +114,32 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
   tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F )
 streams.energy.loud.dance
 ```
+
+# South Africa Zoom
+
+```{r}
+sa <- ne_countries(country = "South Africa", scale = "medium", returnclass = "sf")
+
+sa.data <- left_join(sa, spotify.country, by = c("sovereignt" = "country"))
+
+sa.streams.energy.loud.dance <- tm_shape(sa.data, title = "Streams") +
+  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+  tm_shape(sa.data) +
+  tm_borders(col = "black", lwd = 0.5) +
+  tm_shape(sa.data) +
+  tm_bubbles("logloudness", 
+             col = "energy",
+             shape = 22,
+             style="fixed",
+             border.lwd = 0.1,
+             breaks=c(0.5, 0.6, 0.7, 0.8),
+             palette="Blues", 
+             title.size="Loudness", 
+             title.col="Energy",
+             sizes.legend = c(0.6, 0.79, 1)) + 
+  tm_shape(sa.data) +
+  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") +
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F )
+sa.streams.energy.loud.dance
+```
+
