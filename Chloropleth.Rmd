@@ -16,7 +16,6 @@ library(tmap)
 library(sf)
 library(rnaturalearth)
 library(rnaturalearthdata)
-library(png)
 ```
 
 # Read in data
@@ -35,7 +34,8 @@ spotify <- read.csv("./data/final.csv")%>%
 spotify.country <- spotify %>% 
   group_by(country) %>% 
   summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy), loudness = mean(loudness), liveness = mean(liveness), acousticness = mean(acousticness), speechiness = mean(speechiness)) %>% 
-  mutate(dancelevel = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high")))
+  mutate(dancelevel = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high"))) %>% 
+  mutate(logloudness = log10(abs(loudness)))
 ```
 
 # Fix country names
@@ -110,7 +110,7 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
              sizes.legend = c(0.6, 0.79, 1),
              scale = 0.7) + 
   tm_shape(world.data) +
-  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, scale = 0.5, title.shape = "Danceability") +
+  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, size = 0.2, scale = 0.5, title.shape = "Danceability") +
   tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
 streams.energy.loud.dance
 ```
