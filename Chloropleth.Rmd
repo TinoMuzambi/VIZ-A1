@@ -112,9 +112,10 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
              scale = 0.7) + 
   tm_shape(world.data) +
   tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0)
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0,  bg.color = "#00000000", aes.color = "#00000000")
 streams.energy.loud.dance
-tmap_save(streams.energy.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2)
+
+tmap_save(streams.energy.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2, device = png)
 ```
 
 # Distributions
