@@ -25,8 +25,8 @@ library(scales)
 spotify <- read.csv("./data/final.csv")%>% 
   filter(country != "country") %>% 
   filter(country != "Global") %>% 
-  dplyr::select(streams, country, danceability, energy, loudness, liveness, acousticness, speechiness) %>% 
-  mutate(streams = as.numeric(streams), danceability = as.numeric(danceability), energy = as.numeric(energy), loudness = as.numeric(loudness), liveness = as.numeric(liveness), acousticness = as.numeric(acousticness), speechiness = as.numeric(speechiness))
+  dplyr::select(streams, country, danceability, energy, loudness, liveness, acousticness, speechiness, mode, tempo, valence, duration) %>% 
+  mutate(streams = as.numeric(streams), danceability = as.numeric(danceability), energy = as.numeric(energy), mode = as.numeric(mode), tempo = as.numeric(tempo), valence = as.numeric(valence), duration = as.numeric(duration))
 ```
 
 # Group data by country
@@ -34,9 +34,8 @@ spotify <- read.csv("./data/final.csv")%>%
 ```{r}
 spotify.country <- spotify %>% 
   group_by(country) %>% 
-  summarise(streams = sum(streams), danceability = mean(danceability), energy = mean(energy), loudness = mean(loudness), liveness = mean(liveness), acousticness = mean(acousticness), speechiness = mean(speechiness)) %>% 
-  mutate(dancelevel = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high"))) %>% 
-  mutate(logloudness = log10(abs(loudness)))
+  summarise(streams = sum(streams), danceability = mean(danceability, na.rm = T), energy = mean(energy, na.rm = T), mode = round(mean(mode, na.rm = T), 0), tempo = mean(tempo, na.rm = T), valence = mean(valence, na.rm = T), duration = mean(duration, na.rm = T)) %>% 
+  mutate(dance.level = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high")))
 ```
 
 # Fix country names
@@ -61,6 +60,9 @@ world <- ne_countries(scale = "medium", returnclass = "sf") %>%
 
 ```{r}
 world.data <- left_join(world, spotify.country, by = c("sovereignt" = "country"))
+
+world.data.dance <- world.data %>% 
+  filter(!is.na(danceability))
 ```
 
 
@@ -94,28 +96,28 @@ streams.energy.dance1 <- tm_shape(world.data, title = "Streams") +
   tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F)
 streams.energy.dance1
 
-streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
-  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks) +
+streams.energy.mode.dance <- tm_shape(world.data, title = "Streams") +
+  tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks, colorNA = "orange") +
   tm_shape(world.data) +
   tm_borders(col = "black", lwd = 0.5) +
   tm_shape(world.data) +
-  tm_bubbles("logloudness", 
+  tm_bubbles("mode", 
              col = "energy",
              shape = 22,
              style="fixed", 
              border.lwd = 0.1,
              breaks=c(0.5, 0.6, 0.7, 0.8),
              palette="Blues", 
-             title.size="Loudness", 
+             title.size="Mode", 
              title.col="Energy",
-             sizes.legend = c(0.6, 0.79, 1),
-             scale = 0.9) + 
-  tm_shape(world.data) +
-  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0,  bg.color = "orange")
-streams.energy.loud.dance
+             sizes.legend = c(0, 1),
+             scale = 0.7) + 
+  tm_shape(world.data.dance) +
+  tm_symbols(shape = "dance.level", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability", scale = 0.7) +
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T, inner.margins = 0,  bg.color = "orange")
+streams.energy.mode.dance
 
-tmap_save(streams.energy.loud.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2)
+tmap_save(streams.energy.mode.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2)
 ```
 
 # Distributions
