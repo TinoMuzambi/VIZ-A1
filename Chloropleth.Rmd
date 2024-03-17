@@ -111,9 +111,10 @@ streams.energy.loud.dance <- tm_shape(world.data, title = "Streams") +
              sizes.legend = c(0.6, 0.79, 1),
              scale = 0.7) + 
   tm_shape(world.data) +
-  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, size = 0.2, scale = 0.5, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
+  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability") +
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0)
 streams.energy.loud.dance
+tmap_save(streams.energy.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2)
 ```
 
 # Distributions
@@ -129,6 +130,8 @@ streams.dist <- spotify.country %>%
   scale_x_continuous(breaks = seq(min(spotify.country$streams), max(spotify.country$streams), length.out = 5), labels = label_number(scale = 1/1e9, suffix = " billion")) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 streams.dist
+
+ggsave("./plots/StreamsDist.png", plot = streams.dist, dpi = 300)
 ```
 
 ```{r}
@@ -142,6 +145,8 @@ loudness.dist <- spotify.country %>%
   scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 loudness.dist
+
+ggsave("./plots/LoudnessDist.png", plot = loudness.dist, dpi = 300)
 ```
 
 ```{r}
@@ -155,6 +160,8 @@ energy.dist <- spotify.country %>%
   scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 energy.dist
+
+ggsave("./plots/EnergyDist.png", plot = energy.dist, dpi = 300)
 ```
 
 ```{r}
@@ -167,6 +174,8 @@ danceability.dist <- spotify.country %>%
   labs(x = NULL, y = NULL) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 danceability.dist
+
+ggsave("./plots/DanceDist.png", plot = danceability.dist, dpi = 300)
 ```
 
 
@@ -194,7 +203,8 @@ sa.streams.energy.loud.dance <- tm_shape(sa.data, title = "Streams") +
              sizes.legend = c(0.6, 0.79, 1)) + 
   tm_shape(sa.data) +
   tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, scale = 2)
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0)
 sa.streams.energy.loud.dance
+tmap_save(sa.streams.energy.loud.dance, filename = "./plots/Chloropleth Bubbles SA.png", dpi = 1500, scale = 2)
 ```
 
