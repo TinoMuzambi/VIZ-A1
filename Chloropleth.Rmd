@@ -35,7 +35,9 @@ spotify <- read.csv("./data/final.csv")%>%
 spotify.country <- spotify %>% 
   group_by(country) %>% 
   summarise(streams = sum(streams), danceability = mean(danceability, na.rm = T), energy = mean(energy, na.rm = T), mode = round(mean(mode, na.rm = T), 0), tempo = mean(tempo, na.rm = T), valence = mean(valence, na.rm = T), duration = mean(duration, na.rm = T)) %>% 
-  mutate(dance.level = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high")))
+  mutate(dance.level = ifelse(danceability >=0 & danceability < 0.33, "low", ifelse(danceability >= 0.33 & danceability < 0.66, "moderate", "high"))) %>% 
+  mutate(energy.level = ifelse(energy >=0.5 & energy < 0.6, "low", ifelse(energy >= 0.6 & energy < 0.7, "moderate", "high"))) %>% 
+  mutate(streams.level = ifelse(streams >= 0 & streams < 15e9, "low", ifelse(streams >= 15e9 & streams < 30e9, "moderate", ifelse(streams >= 30e9 & streams < 45e9, "high", "sky"))))
 ```
 
 # Fix country names
@@ -48,6 +50,28 @@ spotify.country <- spotify.country %>%
   mutate(country = ifelse(country == "Korea", "South Korea", country))
 ```
 
+# Enforce orders
+
+```{r}
+# Set danceability order.
+dance.order <- c("low", "moderate", "high")
+spotify.country <- spotify.country %>% 
+  mutate(dance.level = factor(dance.level, levels = dance.order))
+
+# Set streams order.
+streams.order <- c("low", "moderate", "high", "sky")
+spotify.country <- spotify.country %>% 
+  mutate(streams.level = factor(streams.level, levels = streams.order))
+
+# Set energy order.
+spotify.country <- spotify.country %>% 
+  mutate(energy.level = factor(energy.level, levels = dance.order))
+
+# Set mode order.
+mode.order <- c(0, 1)
+spotify.country <- spotify.country %>% 
+  mutate(mode.level = factor(mode, levels = mode.order))
+```
 
 # Get world map data
 
@@ -99,11 +123,11 @@ streams.energy.dance1
 streams.energy.mode.dance <- tm_shape(world.data, title = "Streams") +
   tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks, colorNA = "orange") +
   tm_shape(world.data) +
-  tm_borders(col = "black", lwd = 0.5) +
+  tm_borders(col = "white", lwd = 0.5) +
   tm_shape(world.data) +
   tm_bubbles("mode", 
              col = "energy",
-             shape = 22,
+             shape = 21,
              style="fixed", 
              border.lwd = 0.1,
              breaks=c(0.5, 0.6, 0.7, 0.8),
@@ -114,11 +138,36 @@ streams.energy.mode.dance <- tm_shape(world.data, title = "Streams") +
              scale = 0.7) + 
   tm_shape(world.data.dance) +
   tm_symbols(shape = "dance.level", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability", scale = 0.7) +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T, inner.margins = 0,  bg.color = "orange")
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, bg.color = "orange")
 streams.energy.mode.dance
 
-tmap_save(streams.energy.mode.dance, filename = "./plots/Chloropleth Bubbles.png", dpi = 1500, scale = 2)
+tmap_save(streams.energy.mode.dance, filename = "./plots/Chloropleth Bubbles T.png", dpi = 1500, scale = 2)
 ```
+
+```{r}
+tmp <- tm_shape(world.data, title = "Streams") +
+    tm_fill("streams", title = "Streams", palette = "Greens", breaks = breaks, colorNA = "orange") +
+    tm_shape(world.data) +
+    tm_borders(col = "white", lwd = 0.5) +
+    tm_shape(world.data) +
+    tm_bubbles("energy",
+               col = "energy",
+               shape = 22,
+               style = "fixed",
+               border.lwd = 0.1,
+               breaks = c(0, 0.33, 0.66, 1),
+               palette = "Blues",
+               title.size = "Energy",
+               title.col = "Energy",
+               sizes.legend = c(0, 1),
+               scale = 0.7) +
+    tm_shape(world.data) +
+    tm_symbols(shape = "mode", shapes = c(11,21, 23, 24, 25), border.lwd = 0, size = 0.2, title.shape = "Mode", scale = 0.7) +
+    tm_shape(world.data.dance) +
+    tm_symbols(shape = "dance.level", shapes = dance.icons, border.lwd = 0, size = 0.2, title.shape = "Danceability", scale = 0.7) +
+    tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.outside = T, inner.margins = 0, bg.color = "orange")
+```
+
 
 # Distributions
 
@@ -126,53 +175,58 @@ tmap_save(streams.energy.mode.dance, filename = "./plots/Chloropleth Bubbles.png
 # Streams distribution
 
 streams.dist <- spotify.country %>% 
-  ggplot(aes(streams)) +
-  geom_histogram(binwidth = 2 * IQR(spotify.country$streams) / length(spotify.country$streams)^(1/3), fill="lightgreen", width = 0.1) +
+  ggplot(aes(streams.level)) +
+  geom_bar(fill="lightgreen", position = position_dodge(width = 0.1)) +
   theme_minimal() +
   labs(x = NULL, y = NULL) +
-  scale_x_continuous(breaks = seq(min(spotify.country$streams), max(spotify.country$streams), length.out = 5), labels = label_number(scale = 1/1e9, suffix = " billion")) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 streams.dist
 
 ggsave("./plots/StreamsDist.png", plot = streams.dist, dpi = 300)
 ```
 
-```{r}
-# Loudness distribution
 
-loudness.dist <- spotify.country %>% 
-  ggplot(aes(logloudness)) +
-  geom_histogram(binwidth = 2 * IQR(spotify.country$logloudness, na.rm = T) / length(spotify.country$logloudness)^(1/3), fill="lightgreen", width = 0.1) +
+
+```{r}
+# Mode distribution
+
+mode.dist <- spotify.country %>% 
+  ggplot(aes(mode.level)) +
+  geom_bar(fill="lightgreen", position = position_dodge(width = 0.1)) +
   theme_minimal() +
   labs(x = NULL, y = NULL) +
-  scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
-loudness.dist
+mode.dist
 
-ggsave("./plots/LoudnessDist.png", plot = loudness.dist, dpi = 300)
+ggsave("./plots/ModeDist.png", plot = mode.dist, dpi = 300)
 ```
+
+
 
 ```{r}
 # Energy Distribution
 
 energy.dist <- spotify.country %>% 
-  ggplot(aes(energy)) +
-  geom_histogram(binwidth = 2 * IQR(spotify.country$energy, na.rm = T) / length(spotify.country$energy)^(1/3), fill="lightgreen", width = 0.1) +
+  ggplot(aes(energy.level)) +
+  geom_bar(fill="lightgreen", position = position_dodge(width = 0.1)) +
+  scale_x_discrete(drop = FALSE) +
   theme_minimal() +
   labs(x = NULL, y = NULL) +
-  scale_x_continuous(breaks = seq(0.6, 1, length.out = 5)) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
 energy.dist
 
 ggsave("./plots/EnergyDist.png", plot = energy.dist, dpi = 300)
 ```
 
+
+
 ```{r}
 # Danceability Distribution
 
 danceability.dist <- spotify.country %>% 
-  ggplot(aes(dancelevel)) +
+  ggplot(aes(dance.level)) +
   geom_bar(fill="lightgreen", position = position_dodge(width = 0.1)) +
+  scale_x_discrete(drop = FALSE) +
   theme_minimal() +
   labs(x = NULL, y = NULL) +
   theme(plot.title = element_text(hjust = 0.5), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.text.x = element_blank(), axis.text.y = element_blank())
@@ -180,7 +234,6 @@ danceability.dist
 
 ggsave("./plots/DanceDist.png", plot = danceability.dist, dpi = 300)
 ```
-
 
 # South Africa Zoom
 
@@ -194,20 +247,35 @@ sa.streams.energy.loud.dance <- tm_shape(sa.data, title = "Streams") +
   tm_shape(sa.data) +
   tm_borders(col = "black", lwd = 0.5) +
   tm_shape(sa.data) +
-  tm_bubbles("logloudness", 
+  tm_bubbles("mode", 
              col = "energy",
              shape = 22,
-             style="fixed",
+             style="fixed", 
              border.lwd = 0.1,
              breaks=c(0.5, 0.6, 0.7, 0.8),
              palette="Blues", 
-             title.size="Loudness", 
+             title.size="Mode", 
              title.col="Energy",
-             sizes.legend = c(0.6, 0.79, 1)) + 
+             sizes.legend = c(0, 1),
+             scale = 0.7) + 
   tm_shape(sa.data) +
-  tm_symbols(shape = "dancelevel", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") +
-  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0,  bg.color = "orange")
+  tm_symbols(shape = "dance.level", shapes = dance.icons, border.lwd = 0, alpha  = 0.1, size = 0.2, title.shape = "Danceability") +
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.only = T, inner.margins = 0)
 sa.streams.energy.loud.dance
+
 tmap_save(sa.streams.energy.loud.dance, filename = "./plots/Chloropleth Bubbles SA.png", dpi = 1500, scale = 2)
+```
+
+
+
+```{r}
+streams.valence.duration.dance <- tm_shape(world.data) +
+  tm_fill("valence", title = "Streams", palette = "Greens", breaks = c(0.4, 0.5, 0.6, 0.7), colorNA = "orange") +
+  tm_shape(world.data) +
+  tm_borders(col = "black", lwd = 0.5) +
+  tm_layout(frame = FALSE, legend.position = c("left", "center"), legend.show = F, inner.margins = 0, bg.color = "orange")
+streams.valence.duration.dance
+
+tmap_save(streams.valence.duration.dance, filename = "./plots/Chloropleth Valence.png", dpi = 1500, scale = 2)
 ```
 
